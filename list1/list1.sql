@@ -34,3 +34,5 @@ SELECT nazwa FROM klienci WHERE adres LIKE "Marszałkowska%";
 SELECT miasto FROM klienci WHERE CHAR_LENGTH(adres) > 15;
 18.
 SELECT nazwa, IF(cena > 1500, cena / 12 * 0.1, NULL) AS wysokosc_raty FROM produkty;
+19.
+SELECT COUNT(z_id) FROM detal_zamow WHERE p_id = (SELECT idp FROM produkty WHERE ilosc = (SELECT MAX(ilosc) FROM produkty));
