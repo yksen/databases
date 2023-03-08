@@ -17,7 +17,7 @@ SELECT CONCAT_WS(", ", nazwa, adres, miasto, telefon) AS wizytowka FROM klienci;
 9.
 SELECT nazwa, JSON_OBJECT("zlotych", TRUNCATE(cena, 0), "groszy", ROUND((cena - TRUNCATE(cena, 0)) * 100, 0)) AS cena FROM produkty;
 10.
-SELECT idz, DATE_SUB(DATE_ADD(data, INTERVAL 1 MONTH), INTERVAL IF(WEEKDAY(data) > 4, (WEEKDAY(data) - 1) % 3, 0) DAY) AS najpozniejsza_data, data FROM zamow;
+SELECT idz, DATE_SUB(DATE_ADD(data, INTERVAL 1 MONTH), INTERVAL IF(WEEKDAY(data) > 4, (WEEKDAY(data) - 1) % 3, 0) DAY) AS najpozniejsza_data FROM zamow;
 11.
 SELECT nazwa FROM klienci WHERE miasto NOT LIKE "W%";
 12.
