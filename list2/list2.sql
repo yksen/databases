@@ -3,7 +3,7 @@ SELECT * FROM klienci, produkty;
 2.
 SELECT zamow.*, detal_zamow.sztuk FROM zamow INNER JOIN detal_zamow ON zamow.idz = detal_zamow.z_id;
 3.
-SELECT detal_zamow.z_id,  produkty.nazwa, detal_zamow.sztuk FROM detal_zamow INNER JOIN produkty ON detal_zamow.p_id = produkty.idp;
+SELECT detal_zamow.z_id, produkty.nazwa, detal_zamow.sztuk FROM detal_zamow INNER JOIN produkty ON detal_zamow.p_id = produkty.idp;
 4.
 SELECT produkty.cena * detal_zamow.sztuk AS wartosc FROM detal_zamow INNER JOIN produkty ON detal_zamow.p_id = produkty.idp ORDER BY wartosc DESC;
 5.
@@ -39,3 +39,12 @@ INNER JOIN detal_zamow ON zamow.idz = detal_zamow.z_id
 INNER JOIN produkty ON detal_zamow.p_id = produkty.idp
 WHERE klienci.telefon LIKE "%4%"
 ORDER BY produkty.cena;
+11.
+SELECT *
+FROM klienci, produkty
+WHERE klienci.nazwa IN (produkty.nazwa);
+12.
+SELECT klienci.nazwa, DATE(zamow.data) AS data
+FROM klienci
+LEFT JOIN zamow ON klienci.idk = zamow.k_id
+ORDER BY DATE(zamow.data);
