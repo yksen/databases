@@ -15,18 +15,18 @@ JOIN klienci ON zamow.k_id = klienci.idk
 GROUP BY DAYNAME(data)
 ORDER BY ilosc_zamowien DESC;
 5.
-SELECT YEAR(data) AS rok, MONTH(data) AS miesiac, SUM(cena * sztuk) AS wartosc
+SELECT YEAR(data) AS rok, MONTHNAME(data) AS miesiac, SUM(cena * sztuk) AS wartosc
 FROM zamow
 JOIN detal_zamow ON zamow.idz = detal_zamow.z_id
 JOIN produkty ON detal_zamow.p_id = produkty.idp
-GROUP BY YEAR(data), MONTH(data)
+GROUP BY YEAR(data), MONTHNAME(data)
 ORDER BY wartosc DESC;
 11.
-SELECT produkty.nazwa, IFNULL(SUM(detal_zamow.sztuk), 0) AS liczba_sprzedanych
+SELECT produkty.nazwa, IFNULL(SUM(detal_zamow.sztuk), 0) AS liczba_zamowionych
 FROM produkty
 LEFT JOIN detal_zamow ON produkty.idp = detal_zamow.p_id
 GROUP BY produkty.nazwa
-ORDER BY liczba_sprzedanych DESC;
+ORDER BY liczba_zamowionych DESC;
 12.
 SELECT klienci.miasto, IFNULL(SUM(detal_zamow.sztuk), 0) AS liczba_zamowionych
 FROM klienci
