@@ -9,3 +9,25 @@ SELECT klienci.nazwa AS k_nazwa, miasto, adres, telefon, zamow.*, detal_zamow.*,
 RIGHT JOIN zamow ON klienci.idk = zamow.k_id
 RIGHT JOIN detal_zamow ON zamow.idz = detal_zamow.z_id
 RIGHT JOIN produkty ON detal_zamow.p_id = produkty.idp;
+6.
+CREATE VIEW wartosci_zamowien AS
+SELECT klienci.nazwa, SUM(sztuk * cena) AS wartosc_zamowien FROM klienci
+JOIN zamow ON klienci.idk = zamow.k_id
+JOIN detal_zamow ON zamow.idz = detal_zamow.z_id
+JOIN produkty ON detal_zamow.p_id = produkty.idp
+GROUP BY klienci.nazwa;
+
+SELECT nazwa FROM wartosci_zamowien
+WHERE wartosc_zamowien > (SELECT wartosc_zamowien FROM wartosci_zamowien WHERE nazwa = "Astro");
+10.
+CREATE VIEW ilosc_zamowionych AS
+SELECT produkty.nazwa, COUNT(*) AS ilosc_zamowien, SUM(sztuk) AS laczna_ilosc_zamowionych FROM produkty
+JOIN detal_zamow ON produkty.idp = detal_zamow.p_id
+GROUP BY produkty.nazwa;
+
+SELECT nazwa AS najczesciej_zamawiany FROM ilosc_zamowionych
+WHERE ilosc_zamowien = (SELECT MAX(ilosc_zamowien) FROM ilosc_zamowionych);
+
+SELECT nazwa AS zamowiony_w_najwiekszej_lacznej_ilosci FROM ilosc_zamowionych
+WHERE laczna_ilosc_zamowionych = (SELECT MAX(laczna_ilosc_zamowionych) FROM ilosc_zamowionych);
+14.
