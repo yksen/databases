@@ -17,8 +17,10 @@ JOIN detal_zamow ON zamow.idz = detal_zamow.z_id
 JOIN produkty ON detal_zamow.p_id = produkty.idp
 GROUP BY klienci.nazwa;
 
-SELECT nazwa FROM wartosci_zamowien
-WHERE wartosc_zamowien > (SELECT wartosc_zamowien FROM wartosci_zamowien WHERE nazwa = "Astro");
+SELECT w1.nazwa
+FROM wartosci_zamowien AS w1
+JOIN wartosci_zamowien AS w2 ON w1.wartosc_zamowien > w2.wartosc_zamowien AND w2.nazwa = 'Astro'
+WHERE w1.nazwa != 'Astro';
 10.
 CREATE VIEW ilosc_zamowionych AS
 SELECT produkty.nazwa, COUNT(*) AS ilosc_zamowien, SUM(sztuk) AS laczna_ilosc_zamowionych FROM produkty
