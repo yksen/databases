@@ -33,3 +33,6 @@ WHERE ilosc_zamowien = (SELECT MAX(ilosc_zamowien) FROM ilosc_zamowionych);
 SELECT nazwa AS zamowiony_w_najwiekszej_lacznej_ilosci FROM ilosc_zamowionych
 WHERE laczna_ilosc_zamowionych = (SELECT MAX(laczna_ilosc_zamowionych) FROM ilosc_zamowionych);
 14.
+SELECT nazwa
+FROM produkty
+WHERE idp NOT IN (SELECT p_id FROM detal_zamow);
