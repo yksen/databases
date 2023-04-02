@@ -27,11 +27,15 @@ SELECT produkty.nazwa, COUNT(*) AS ilosc_zamowien, SUM(sztuk) AS laczna_ilosc_za
 JOIN detal_zamow ON produkty.idp = detal_zamow.p_id
 GROUP BY produkty.nazwa;
 
-SELECT nazwa AS najczesciej_zamawiany FROM ilosc_zamowionych
-WHERE ilosc_zamowien = (SELECT MAX(ilosc_zamowien) FROM ilosc_zamowionych);
+SELECT i1.nazwa AS najczesciej_zamawiany
+FROM ilosc_zamowionych AS i1
+LEFT JOIN ilosc_zamowionych AS i2 ON i1.ilosc_zamowien < i2.ilosc_zamowien
+WHERE i2.ilosc_zamowien IS NULL;
 
-SELECT nazwa AS zamowiony_w_najwiekszej_lacznej_ilosci FROM ilosc_zamowionych
-WHERE laczna_ilosc_zamowionych = (SELECT MAX(laczna_ilosc_zamowionych) FROM ilosc_zamowionych);
+SELECT i1.nazwa AS zamowiony_w_najwiekszej_lacznej_ilosci
+FROM ilosc_zamowionych AS i1
+LEFT JOIN ilosc_zamowionych AS i2 ON i1.laczna_ilosc_zamowionych < i2.laczna_ilosc_zamowionych
+WHERE i2.laczna_ilosc_zamowionych IS NULL;
 14.
 SELECT nazwa
 FROM produkty
