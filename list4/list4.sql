@@ -9,6 +9,12 @@ SELECT klienci.nazwa AS k_nazwa, miasto, adres, telefon, zamow.*, detal_zamow.*,
 RIGHT JOIN zamow ON klienci.idk = zamow.k_id
 RIGHT JOIN detal_zamow ON zamow.idz = detal_zamow.z_id
 RIGHT JOIN produkty ON detal_zamow.p_id = produkty.idp;
+3.
+SELECT k_nazwa AS klienci_zamowili_laptop_i_tablet
+FROM wszystko_klienci
+GROUP BY k_id
+HAVING COUNT(IF(p_nazwa = "laptop", 1, NULL)) > 0
+   AND COUNT(IF(p_nazwa = "tablet", 1, NULL)) > 0;
 6.
 CREATE VIEW wartosci_zamowien AS
 SELECT klienci.nazwa, SUM(sztuk * cena) AS wartosc_zamowien FROM klienci
