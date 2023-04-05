@@ -1,0 +1,32 @@
+\documentclass{standalone}
+
+\usepackage[polish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usetikzlibrary{er, positioning}
+
+\begin{document}
+\begin{tikzpicture}[auto]
+    \node[entity](zamówienie){zamówienie}
+    [grow=up]
+    child {node[attribute]{data}};
+    \node[relationship](złożył)[above left = of zamówienie]{złożył};
+    \node[entity](klient)[above left = of złożył]{klient}
+    [grow=up, sibling distance=2cm]
+    child {node[attribute]{telefon}}
+    child {node[attribute]{nazwa}}
+    child {node[attribute]{adres}}
+    child {node[attribute]{miasto}};
+    \path(złożył) edge node {} (zamówienie) edge node {} (klient);
+    \node[relationship](obejmuje)[above right = of zamówienie]{obejmuje}
+    [below right = of obejmuje]
+    child {node[attribute]{sztuk}};
+    \node[entity](produkt)[above right = of obejmuje]{produkt}
+    [grow=up, sibling distance=2cm]
+    child {node[attribute]{nazwa}}
+    child {node[attribute]{ilość}}
+    child {node[attribute]{cena}};
+    \path(obejmuje) edge node {} (zamówienie) edge node {} (produkt);
+\end{tikzpicture}
+\end{document}
