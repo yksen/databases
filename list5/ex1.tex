@@ -4,7 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{tikz}
-\usetikzlibrary{er, positioning}
+\usetikzlibrary{er, positioning, arrows.meta}
 
 \begin{document}
 \begin{tikzpicture}[auto]
@@ -18,7 +18,8 @@
     child {node[attribute]{nazwa}}
     child {node[attribute]{adres}}
     child {node[attribute]{miasto}};
-    \path(złożył) edge node {} (zamówienie) edge node {} (klient);
+    \path(złożył) edge[double distance=1.5pt] node {} (zamówienie);
+    \draw[-Latex] (złożył) -- (klient);
     \node[relationship](obejmuje)[above right = of zamówienie]{obejmuje}
     [below right = of obejmuje]
     child {node[attribute]{sztuk}};
