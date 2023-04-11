@@ -1,0 +1,43 @@
+\documentclass{standalone}
+
+\usepackage[polish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usetikzlibrary{er, positioning, arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[sibling distance=2cm, auto]
+    \node[entity](sala){sala}
+    [grow=up]
+    child {node[attribute]{numer}}
+    child {node[attribute]{budynek}};
+    \node[relationship](ma miejsce)[below right = of sala]{ma miejsce};
+    \node[entity](grupa)[below right = of ma miejsce]{grupa}
+    [grow=down]
+    child {node[attribute]{numer}}
+    child {node[attribute]{dzień}}
+    child {node[attribute]{godzina}}
+    child {node[attribute]{czas}};
+    \node[relationship](składa się)[above right = of grupa]{składa się};
+    \node[relationship](prowadzi)[right = of grupa]{prowadzi};
+    \node[entity](kurs)[above right = of składa się]{kurs}
+    [grow=up]
+    child {node[attribute]{nazwa}}
+    child {node[attribute]{rodzaj}};
+    \node[entity](prowadzący)[right = of prowadzi]{prowadzący}
+    [grow=right]
+    child {node[attribute]{imię}}
+    child {node[attribute]{nazwisko}};
+    \node[relationship](należy)[left = of grupa]{należy};
+    \node[entity](student)[left = of należy]{student}
+    [grow=left, level distance=3cm]
+    child {node[attribute]{imię}}
+    child {node[attribute]{nazwisko}}
+    child {node[attribute]{indeks}};
+    \path(składa się) edge node {} (grupa) edge[double distance=1.5pt] node {} (kurs);
+    \path(prowadzi) edge node {} (grupa) edge[-Latex] node {} (prowadzący);
+    \path(należy) edge[-Latex] node {} (grupa) edge node {} (student);
+    \path(ma miejsce) edge[-Latex] node {} (sala) edge node {} (grupa);
+\end{tikzpicture}
+\end{document}
