@@ -16,8 +16,11 @@
     [grow=up, sibling distance=2cm]
     child {node[attribute]{telefon}}
     child {node[attribute]{nazwa}}
-    child {node[attribute]{adres}}
-    child {node[attribute]{miasto}};
+    child {node[attribute]{adres}
+            [grow=up, sibling distance=2cm]
+            child {node[attribute]{ulica}}
+            child {node[attribute]{miasto}}
+            child {node[attribute]{kod}}};
     \path(złożył) edge[double distance=1.5pt] node {} (zamówienie);
     \draw[-Latex] (złożył) -- (klient);
     \node[relationship](obejmuje)[above right = of zamówienie]{obejmuje}
@@ -27,7 +30,17 @@
     [grow=up, sibling distance=2cm]
     child {node[attribute]{nazwa}}
     child {node[attribute]{ilość}}
-    child {node[attribute]{cena}};
+    child {node[attribute]{cena}}
+    child {node[attribute]{kategoria}};
     \path(obejmuje) edge node {} (zamówienie) edge node {} (produkt);
+    \node[relationship](posiada)[below left = of klient]{posiada};
+    \node[entity](zwierzę)[below left = of posiada]{zwierzę}
+    [grow=down, sibling distance=2.2cm]
+    child {node[attribute]{imię}}
+    child {node[attribute]{gatunek}}
+    child {node[attribute, dashed]{data ur.}}
+    child {node[attribute, dashed]{wiek}};
+    \path(posiada) edge node {} (zwierzę);
+    \draw[-Latex] (posiada) -- (klient);
 \end{tikzpicture}
 \end{document}
