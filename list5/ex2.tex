@@ -35,9 +35,9 @@
     child {node[attribute]{imię}}
     child {node[attribute]{nazwisko}}
     child {node[attribute]{indeks}};
-    \path(składa się) edge node {} (grupa) edge[double distance=1.5pt] node {} (kurs);
-    \path(prowadzi) edge node {} (grupa) edge[-Latex] node {} (prowadzący);
-    \path(należy) edge[-Latex] node {} (grupa) edge node {} (student);
-    \path(ma miejsce) edge[-Latex] node {} (sala) edge node {} (grupa);
+    \path(składa się) edge[double distance=1.5pt] node {} (grupa) edge[-Latex] node {} (kurs);
+    \path(prowadzi) edge[double distance=1.5pt, -Latex] node {} (grupa) edge[-Latex] node {} (prowadzący);
+    \path(należy) edge[-Latex] node {} (grupa) edge[-Latex] node {} (student);
+    \path(ma miejsce) edge[-Latex] node {} (sala) edge[double distance=1.5pt] node {} (grupa);
 \end{tikzpicture}
 \end{document}
