@@ -1,0 +1,49 @@
+\documentclass[border=10pt, x11names]{standalone}
+
+\usepackage[polish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usetikzlibrary{er, positioning, arrows.meta}
+\tikzset{every entity/.style={draw=orange, fill=orange!20}}
+\tikzset{every attribute/.style={draw=MediumPurple1, fill=MediumPurple1!20}}
+\tikzset{every relationship/.style={draw=Chartreuse2, fill=Chartreuse2!20}}
+
+\begin{document}
+\begin{tikzpicture}[auto]
+    \node[entity](zamówienie){zamówienie}
+    [grow=up]
+    child {node[attribute]{data}};
+    \node[relationship](złożył)[above left = of zamówienie]{złożył};
+    \node[entity](klient)[above left = of złożył]{klient}
+    [grow=up, sibling distance=2cm]
+    child {node[attribute]{telefon}}
+    child {node[attribute]{nazwa}}
+    child {node[attribute]{adres}
+            [grow=up, sibling distance=2cm]
+            child {node[attribute]{ulica}}
+            child {node[attribute]{miasto}}
+            child {node[attribute]{kod}}};
+    \path(złożył) edge[double distance=1.5pt] node {} (zamówienie);
+    \draw[-Latex] (złożył) -- (klient);
+    \node[relationship](obejmuje)[above right = of zamówienie]{obejmuje}
+    [below right = of obejmuje]
+    child {node[attribute]{sztuk}};
+    \node[entity](produkt)[above right = of obejmuje]{produkt}
+    [grow=up, sibling distance=2cm]
+    child {node[attribute]{nazwa}}
+    child {node[attribute]{ilość}}
+    child {node[attribute]{cena}}
+    child {node[attribute]{kategoria}};
+    \path(obejmuje) edge node {} (zamówienie) edge node {} (produkt);
+    \node[relationship](posiada)[below left = of klient]{posiada};
+    \node[entity](zwierzę)[below left = of posiada]{zwierzę}
+    [grow=down, sibling distance=2.2cm]
+    child {node[attribute]{imię}}
+    child {node[attribute]{gatunek}}
+    child {node[attribute, dashed]{data ur.}}
+    child {node[attribute, dashed]{wiek}};
+    \path(posiada) edge node {} (zwierzę);
+    \draw[-Latex] (posiada) -- (klient);
+\end{tikzpicture}
+\end{document}

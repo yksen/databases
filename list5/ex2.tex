@@ -1,0 +1,55 @@
+\documentclass[border=10pt, x11names]{standalone}
+
+\usepackage[polish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usetikzlibrary{er, positioning, arrows.meta}
+\tikzset{every entity/.style={draw=orange, fill=orange!20}}
+\tikzset{every attribute/.style={draw=MediumPurple1, fill=MediumPurple1!20}}
+\tikzset{every relationship/.style={draw=Chartreuse2, fill=Chartreuse2!20}}
+
+\begin{document}
+\begin{tikzpicture}[sibling distance=2cm, auto]
+    \node[entity](sala){sala}
+    [grow=up]
+    child {node[attribute]{numer}}
+    child {node[attribute]{budynek}}
+    child {node[attribute]{\underline{idsala}}};
+    \node[relationship](ma miejsce)[below right = of sala]{ma miejsce};
+    \node[entity](grupa)[below right = of ma miejsce]{grupa}
+    [grow=down, level distance=3cm, sibling distance=2.5cm]
+    child {node[attribute]{\underline{idgrupa}}}
+    child {node[attribute]{salaid}}
+    child {node[attribute]{studentid}}
+    child {node[attribute]{kursid}}
+    child {node[attribute]{prowadzącyid}}
+    child {node[attribute]{numer}}
+    child {node[attribute]{dzień}}
+    child {node[attribute]{godzina}}
+    child {node[attribute]{czas}};
+    \node[relationship](składa się)[above right = of grupa]{składa się};
+    \node[relationship](prowadzi)[right = of grupa]{prowadzi};
+    \node[entity](kurs)[above right = of składa się]{kurs}
+    [grow=up]
+    child {node[attribute]{nazwa}}
+    child {node[attribute]{rodzaj}}
+    child {node[attribute]{\underline{idkurs}}};
+    \node[entity](prowadzący)[right = of prowadzi]{prowadzący}
+    [grow=right, level distance=3cm, sibling distance=1cm]
+    child {node[attribute]{imię}}
+    child {node[attribute]{nazwisko}}
+    child {node[attribute]{\underline{idprowadzący}}};
+    \node[relationship](należy)[left = of grupa]{należy};
+    \node[entity](student)[left = of należy]{student}
+    [grow=left, level distance=3cm, sibling distance=1cm]
+    child {node[attribute]{\underline{idstudent}}}
+    child {node[attribute]{imię}}
+    child {node[attribute]{nazwisko}}
+    child {node[attribute]{indeks}};
+    \path(składa się) edge[double distance=1.5pt] node {} (grupa) edge[-Latex] node {} (kurs);
+    \path(prowadzi) edge[double distance=1.5pt] node {} (grupa) edge[-Latex] node {} (prowadzący);
+    \path(należy) edge[double distance=1.5pt] node {} (grupa) edge[-Latex] node {} (student);
+    \path(ma miejsce) edge[-Latex] node {} (sala) edge[double distance=1.5pt] node {} (grupa);
+\end{tikzpicture}
+\end{document}
