@@ -14,10 +14,16 @@
     \node[entity](sala){sala}
     [grow=up]
     child {node[attribute]{numer}}
-    child {node[attribute]{budynek}};
+    child {node[attribute]{budynek}}
+    child {node[attribute]{\underline{idsala}}};
     \node[relationship](ma miejsce)[below right = of sala]{ma miejsce};
     \node[entity](grupa)[below right = of ma miejsce]{grupa}
-    [grow=down]
+    [grow=down, level distance=3cm, sibling distance=2.5cm]
+    child {node[attribute]{\underline{idgrupa}}}
+    child {node[attribute]{salaid}}
+    child {node[attribute]{studentid}}
+    child {node[attribute]{kursid}}
+    child {node[attribute]{prowadzącyid}}
     child {node[attribute]{numer}}
     child {node[attribute]{dzień}}
     child {node[attribute]{godzina}}
@@ -27,14 +33,17 @@
     \node[entity](kurs)[above right = of składa się]{kurs}
     [grow=up]
     child {node[attribute]{nazwa}}
-    child {node[attribute]{rodzaj}};
+    child {node[attribute]{rodzaj}}
+    child {node[attribute]{\underline{idkurs}}};
     \node[entity](prowadzący)[right = of prowadzi]{prowadzący}
-    [grow=right]
+    [grow=right, level distance=3cm, sibling distance=1cm]
     child {node[attribute]{imię}}
-    child {node[attribute]{nazwisko}};
+    child {node[attribute]{nazwisko}}
+    child {node[attribute]{\underline{idprowadzący}}};
     \node[relationship](należy)[left = of grupa]{należy};
     \node[entity](student)[left = of należy]{student}
-    [grow=left, level distance=3cm]
+    [grow=left, level distance=3cm, sibling distance=1cm]
+    child {node[attribute]{\underline{idstudent}}}
     child {node[attribute]{imię}}
     child {node[attribute]{nazwisko}}
     child {node[attribute]{indeks}};
