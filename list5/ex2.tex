@@ -1,10 +1,13 @@
-\documentclass[border=10pt]{standalone}
+\documentclass[border=10pt, x11names]{standalone}
 
 \usepackage[polish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{tikz}
 \usetikzlibrary{er, positioning, arrows.meta}
+\tikzset{every entity/.style={draw=orange, fill=orange!20}}
+\tikzset{every attribute/.style={draw=MediumPurple1, fill=MediumPurple1!20}}
+\tikzset{every relationship/.style={draw=Chartreuse2, fill=Chartreuse2!20}}
 
 \begin{document}
 \begin{tikzpicture}[sibling distance=2cm, auto]
