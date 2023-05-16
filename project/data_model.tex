@@ -1,0 +1,27 @@
+\documentclass[border=1cm, x11names]{standalone}
+
+\usepackage[polish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usetikzlibrary{er, positioning, arrows.meta, calc}
+
+\tikzset{every entity/.style={draw=orange, fill=orange!20}}
+\tikzset{every attribute/.style={draw=MediumPurple1, fill=MediumPurple1!20}}
+\tikzset{every relationship/.style={draw=Chartreuse2, fill=Chartreuse2!20, minimum size=2cm}}
+
+\begin{document}
+\begin{tikzpicture}
+    \node[entity](A) at (0,0) {user};
+    \node[entity](B) at ($(A)+(7,0)$) {restaurant};
+    \node[entity](C) at ($(A)+(0,7)$) {order};
+    \node[entity](D) at ($(C)+(7,0)$) {item};
+    \node[entity](E) at ($(B)+(7,0)$) {review};
+
+    \node[relationship](BE) at ($(B)!0.5!(E)$) {about} edge[-Latex] (B) edge[double distance=1.5pt] (E);
+    \node[relationship](AB) at ($(A)!0.5!(B)$) {owns} edge[-Latex] (A) edge[double distance=1.5pt] (B);
+    \node[relationship](AD) at ($(A)!0.5!(C)$) {placed} edge[-Latex] (A) edge[double distance=1.5pt] (C);
+    \node[relationship](CD) at ($(C)!0.5!(D)$) {consists of} edge (C) edge (D);
+    \node[relationship](BD) at ($(B)!0.5!(D)$) {offers} edge (B) edge (D);
+\end{tikzpicture}
+\end{document}
