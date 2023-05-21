@@ -16,9 +16,7 @@
     \node[entity](B) at ($(A)+(7,0)$) {restaurant};
     \node[entity](C) at ($(A)+(0,7)$) {order};
     \node[entity](D) at ($(C)+(7,0)$) {item};
-    \node[entity](E) at ($(B)+(7,0)$) {review};
 
-    \node[relationship](BE) at ($(B)!0.5!(E)$) {about} edge[-Latex] (B) edge[double distance=1.5pt] (E);
     \node[relationship](AB) at ($(A)!0.5!(B)$) {owns} edge[-Latex] (A) edge[double distance=1.5pt] (B);
     \node[relationship](AD) at ($(A)!0.5!(C)$) {placed} edge[-Latex] (A) edge[double distance=1.5pt] (C);
     \node[relationship](CD) at ($(C)!0.5!(D)$) {consists of} edge (C) edge (D);
