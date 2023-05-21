@@ -11,15 +11,45 @@
 \tikzset{every relationship/.style={draw=Chartreuse2, fill=Chartreuse2!20, minimum size=2cm}}
 
 \begin{document}
-\begin{tikzpicture}
-    \node[entity](A) at (0,0) {user};
-    \node[entity](B) at ($(A)+(7,0)$) {restaurant};
-    \node[entity](C) at ($(A)+(0,7)$) {order};
-    \node[entity](D) at ($(C)+(7,0)$) {item};
+\begin{tikzpicture}[auto]
+    \node[entity](A) at (0,0) {user}
+    [grow=up, sibling distance=2cm]
+    child {node[attribute]{address}}
+    child {node[attribute]{phone}}
+    child {node[attribute]{email}}
+    child {node[attribute]{name}}
+    child {node[attribute]{\underline{id\_user}}};
+    \node[entity](B) at ($(A)+(-6,-6)$) {order}
+    [grow=left, sibling distance=1cm, level distance=2.5cm]
+    child {node[attribute]{\underline{id\_order}}}
+    child {node[attribute]{user\_id}}
+    child {node[attribute]{date}}
+    child {node[attribute]{comment}};
+    \node[entity](C) at ($(A)+(6,-6)$) {restaurant}
+    [grow=right, sibling distance=1cm, level distance=2.5cm]
+    child {node[attribute]{cuisine}}
+    child {node[attribute]{address}}
+    child {node[attribute]{phone}}
+    child {node[attribute]{name}}
+    child {node[attribute]{user\_id}}
+    child {node[attribute]{\underline{id\_restaurant}}};
+    \node[entity](D) at ($(A)+(0,-12)$) {item}
+    [grow=down, sibling distance=2.5cm]
+    child {node[attribute]{\underline{id\_item}}}
+    child {node[attribute]{name}}
+    child {node[attribute]{description}};
 
-    \node[relationship](AB) at ($(A)!0.5!(B)$) {owns} edge[-Latex] (A) edge[double distance=1.5pt] (B);
-    \node[relationship](AD) at ($(A)!0.5!(C)$) {placed} edge[-Latex] (A) edge[double distance=1.5pt] (C);
-    \node[relationship](CD) at ($(C)!0.5!(D)$) {consists of} edge (C) edge (D);
-    \node[relationship](BD) at ($(B)!0.5!(D)$) {offers} edge (B) edge (D);
+    \node[relationship](AC) at ($(A)!0.5!(C)$) {owns} edge[-Latex] (A) edge[double distance=1.5pt] (C);
+    \node[relationship](AD) at ($(A)!0.5!(B)$) {placed} edge[-Latex] (A) edge[double distance=1.5pt] (B);
+    \node[relationship](BD) at ($(B)!0.5!(D)$) {consists of} edge (B) edge (D)
+    [grow=left, sibling distance=1.5cm, level distance=2.5cm, rotate=45]
+    child {node[attribute]{order\_id}}
+    child {node[attribute]{item\_id}}
+    child {node[attribute]{quantity}};
+    \node[relationship](CD) at ($(C)!0.5!(D)$) {offers} edge (C) edge (D)
+    [grow=right, sibling distance=1.5cm, level distance=2.5cm, rotate=-45]
+    child {node[attribute]{price}}
+    child {node[attribute]{item\_id}}
+    child {node[attribute]{restaurant\_id}};
 \end{tikzpicture}
 \end{document}
