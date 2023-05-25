@@ -1,17 +1,11 @@
 <?php
+require_once "database_connection.php";
+
 echo "<form method='post'>
 <input type='text' name='nazwa' placeholder='Nazwa produktu'>
 <input type='text' name='cena' placeholder='Cena'>
 <input type='text' name='ilosc' placeholder='Stan magazynowy'>
 <input type='submit' value='Dodaj'><br>";
-
-require_once "credentials.php";
-$connection = mysqli_connect($databaseHost, $databaseUser, $databasePassword, $databaseName);
-
-if (mysqli_connect_errno()) {
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-    exit();
-}
 
 if (!empty($_POST["nazwa"]) && !empty($_POST["cena"]) && !empty($_POST["ilosc"])) {
     $name = $_POST["nazwa"];
@@ -22,7 +16,7 @@ if (!empty($_POST["nazwa"]) && !empty($_POST["cena"]) && !empty($_POST["ilosc"])
         exit();
     }
     $query = "INSERT INTO produkty (nazwa, cena, ilosc) VALUES ('$name', '$price', '$quantity')";
-    $result = mysqli_query($connection, $query);
+    $result = mysqli_query($database, $query);
     if ($result) {
         echo "Dodano produkt.";
     } else {

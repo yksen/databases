@@ -1,20 +1,13 @@
 <?php
-require_once "credentials.php";
-$connection = mysqli_connect($databaseHost, $databaseUser, $databasePassword, $databaseName);
-
-if (mysqli_connect_errno()) {
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-    exit();
-}
+require_once "database_connection.php";
 
 $query = "
 SELECT data, SUM(cena * sztuk) FROM zamow
 JOIN detal_zamow ON idz = z_id
 JOIN produkty ON idp = p_id
 GROUP BY data
-ORDER BY data
-";
-$result = mysqli_query($connection, $query);
+ORDER BY data";
+$result = mysqli_query($database, $query);
 
 echo "<table>";
 echo "<th>Data</th><th>Suma</th>";
@@ -23,4 +16,4 @@ while ($row = $result->fetch_row())
 $result->close();
 echo "</table>";
 
-$connection->close();
+$database->close();
