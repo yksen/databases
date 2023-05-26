@@ -10,21 +10,23 @@ while ($row = $result->fetch_row())
 $result->close();
 
 echo "<form method='post'>
-<select name='client'>"
+<select name='klient'>"
     . implode("", array_map(function ($client) {
         return "<option value='$client[0]'>$client[1]</option>";
     }, $clients)) . "
 </select>
-<input type='submit' value='Order'>
+<input name='data' type='datetime-local' value='" . date("Y-m-d\TH:i:s") . "' step=1>
+<input type='submit' value='Dodaj'>
 </form>";
 
-if (!empty($_POST["client"])) {
-    $date = date("Y-m-d H:i:s");
-    $query = "INSERT INTO zamow (k_id, data) VALUES ('$_POST[client]', '$date')";
+if (!empty($_POST["klient"]) && !empty($_POST["data"])) {
+    $query = "INSERT INTO zamow (k_id, data) VALUES ('$_POST[klient]', '$_POST[data]')";
     $result = $database->query($query);
     if ($result) {
-        echo "Order added.";
+        echo "Zamówienie dodane.";
     } else {
-        echo "Failed to add order.";
+        echo "Nie udało się dodać zamówienia.";
+        echo "<br>" . $database->error;
+        echo "<br>" . $_POST["data"];
     }
 }
