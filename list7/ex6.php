@@ -1,8 +1,8 @@
 <?php
 require_once "database_connection.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $date = $_POST['data'];
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $date = $_GET['data'];
     $query = "SELECT idz, klienci.nazwa, produkty.nazwa AS pnazwa, cena, sztuk FROM zamow
               JOIN klienci ON k_id = idk
               JOIN detal_zamow ON z_id = idz
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "</table>";
     }
 } else {
-    echo "<form method='post'>
+    echo "<form method='get'>
           <input type='date' name='data'>
           <input type='submit' value='Pokaż zamówienia'>
           </form>";
