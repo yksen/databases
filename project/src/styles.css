@@ -2,8 +2,18 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.topbar {
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
     background-color: #f2f2f2;
+}
+
+.topbar {
+    background-color: #c8c8c8;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: fixed;
     top: 0;
@@ -37,6 +47,8 @@
     border: none;
     cursor: pointer;
     background-color: #007bff;
+    color: #ffffff;
+    font-weight: bold;
 }
 
 .menu-button:hover {
@@ -45,9 +57,47 @@
 
 .add-restaurant-button {
     background-color: #ff9800;
-    color: #fff;
 }
 
 .add-restaurant-button:hover {
+    background-color: #f57c00;
+}
+
+.form-box {
+    background-color: #fff;
+    width: 400px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-box h2 {
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-group input[type="submit"] {
+    background-color: #ff9800;
+    border: none;
+    cursor: pointer;
+    color: #000000;
+}
+
+.form-group input[type="submit"]:hover {
     background-color: #f57c00;
 }
