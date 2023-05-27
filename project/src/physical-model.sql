@@ -1,17 +1,16 @@
 SET DEFAULT_STORAGE_ENGINE=INNODB;
-SET CHARACTER_SET_DATABASE=utf8;
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
     `id_user` int UNSIGNED NOT NULL AUTO_INCREMENT,
-    `is_admin` boolean NOT NULL,
+    `is_admin` boolean NOT NULL DEFAULT FALSE,
     `user_name` varchar(50) NOT NULL,
     `email` varchar(50) NOT NULL,
-    `password` varchar(24) NOT NULL,
+    `password` varchar(32) NOT NULL,
     `user_phone` varchar(15) NOT NULL,
     `user_address` varchar(50) NOT NULL,
     PRIMARY KEY (`id_user`)
-);
+) DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `items`;
 CREATE TABLE `items` (
@@ -19,17 +18,17 @@ CREATE TABLE `items` (
     `item_name` varchar(50) NOT NULL,
     `description` varchar(255) NOT NULL,
     PRIMARY KEY (`id_item`)
-);
+) DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
     `id_order` int UNSIGNED NOT NULL AUTO_INCREMENT,
     `user_id` int UNSIGNED NOT NULL,
     `date` timestamp NOT NULL,
-    `comment` varchar(255) NOT NULL,
+    `comment` varchar(255) DEFAULT NULL,
     PRIMARY KEY (`id_order`),
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id_user`)
-);
+) DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `order_items`;
 CREATE TABLE `order_items` (
@@ -40,7 +39,7 @@ CREATE TABLE `order_items` (
     PRIMARY KEY (`id_order_item`),
     FOREIGN KEY (`order_id`) REFERENCES `orders` (`id_order`),
     FOREIGN KEY (`item_id`) REFERENCES `items` (`id_item`)
-);
+) DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `restaurants`;
 CREATE TABLE `restaurants` (
@@ -52,7 +51,7 @@ CREATE TABLE `restaurants` (
     `cuisine` varchar(50) NOT NULL,
     PRIMARY KEY (`id_restaurant`),
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id_user`)
-);
+) DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `restaurant_items`;
 CREATE TABLE `restaurant_items` (
@@ -63,4 +62,4 @@ CREATE TABLE `restaurant_items` (
     PRIMARY KEY (`id_restaurant_item`),
     FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id_restaurant`),
     FOREIGN KEY (`item_id`) REFERENCES `items` (`id_item`)
-);
+) DEFAULT CHARSET=utf8;
