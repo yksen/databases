@@ -1,15 +1,18 @@
 <link rel="stylesheet" href="styles.css" type="text/css">
-<?php require_once "menu.php"; ?>
+<?php
+session_start();
+require_once "menu.php";
+?>
 
 <div class="form-box">
     <h2>Login</h2>
-    <form>
+    <form method="post" action="login.php">
         <div class="form-group">
-            <label for="email">Email:</label>
+            <label for="email">Email</label>
             <input type="email" id="email" name="email" required>
         </div>
         <div class="form-group">
-            <label for="password">Password:</label>
+            <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
         </div>
         <div class="form-group">
@@ -17,3 +20,25 @@
         </div>
     </form>
 </div>
+
+<?php
+if (!empty($_POST["email"]) && !empty($_POST["password"])) {
+    $email = $_POST["email"];
+    $password = md5($_POST["password"]);
+
+    require_once "database-connection.php";
+
+    $query = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
+    $result = $database->query($query);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $_SESSION["user_id"] = $row["id_user"];
+        $_SESSION["user_name"] = $row["user_name"];
+        $_SESSION["user_email"] = $row["email"];
+        $_SESSION["user_phone"] = $row["user_phone"];
+        $_SESSION["user_address"] = $row["user_address"];
+        header("Location: index.php");
+    } else {
+        echo "<script>alert('Invalid email or password!');</script>";
+    }
+}
