@@ -26,6 +26,12 @@ body {
     box-sizing: border-box;
 }
 
+.logo {
+    cursor: pointer;
+    height: 60px;
+    width: 90px;
+}
+
 .search-bar {
     text-align: center;
 }

@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="styles.css" type="text/css">
+<link rel="stylesheet" href="assets/styles.css" type="text/css">
 <?php
 session_start();
 require_once "menu.php";
