@@ -51,5 +51,6 @@ if (
         $query = "INSERT INTO users (user_name, email, password, user_phone, user_address)
                   VALUES ('$name', '$email', '$password', '$phone', '$address')";
         $database->query($query);
+        header("Location: login.php");
     }
 }

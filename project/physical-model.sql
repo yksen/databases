@@ -45,6 +45,7 @@ DROP TABLE IF EXISTS `restaurants`;
 CREATE TABLE `restaurants` (
     `id_restaurant` int UNSIGNED NOT NULL AUTO_INCREMENT,
     `user_id` int UNSIGNED NOT NULL,
+    `is_approved` boolean NOT NULL DEFAULT FALSE,
     `restaurant_name` varchar(50) NOT NULL,
     `restaurant_phone` varchar(15) NOT NULL,
     `restaurant_address` varchar(50) NOT NULL,
