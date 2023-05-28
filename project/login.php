@@ -33,10 +33,6 @@ if (!empty($_POST["email"]) && !empty($_POST["password"])) {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $_SESSION["user_id"] = $row["id_user"];
-        $_SESSION["user_name"] = $row["user_name"];
-        $_SESSION["user_email"] = $row["email"];
-        $_SESSION["user_phone"] = $row["user_phone"];
-        $_SESSION["user_address"] = $row["user_address"];
         header("Location: index.php");
     } else {
         echo "<script>alert('Invalid email or password!');</script>";
