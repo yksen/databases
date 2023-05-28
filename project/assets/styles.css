@@ -30,10 +30,8 @@ body {
     cursor: pointer;
     height: 60px;
     width: 90px;
-}
-
-.search-bar {
-    text-align: center;
+    flex-grow: 1;
+    flex-basis: 0;
 }
 
 .search-bar input {
@@ -41,9 +39,16 @@ body {
     border: 1px solid #ccc;
     border-radius: 20px;
     font-size: 14px;
-    width: 200px;
+    width: 300px;
     box-sizing: border-box;
     outline: none;
+}
+
+.menu-buttons {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+    flex-basis: 0;
 }
 
 .menu-button {

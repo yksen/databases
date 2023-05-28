@@ -1,5 +1,7 @@
 <?php session_start(); ?>
 
+<title>Order food online</title>
+
 <div class="topbar">
     <div class="logo" onclick="window.location.href='index.php'">
         <svg class="logo">
@@ -12,9 +14,10 @@
     <div class="menu-buttons">
         <?php
         if (!empty($_SESSION["user_id"])) {
-            echo "<button class='menu-button add-restaurant-button' onclick='window.location.href=\"add-restaurant.php\"'>
+            echo "<button class='menu-button add-restaurant-button' onclick='window.location.href=\"add.php?type=restaurant\"'>
                       Add restaurant
                   </button>";
+            echo "<button class='menu-button' onclick='window.location.href=\"settings.php\"'>Settings</button>";
             echo "<button class='menu-button' onclick='window.location.href=\"logout.php\"'>Logout</button>";
         } else {
             echo "<button class='menu-button' onclick='window.location.href=\"login.php\"'>Login</button>
