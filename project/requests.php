@@ -21,10 +21,14 @@ $query = "SELECT * FROM restaurants
 $result = $database->query($query);
 $requests = $result->fetch_all(MYSQLI_ASSOC);
 
+if (empty($requests)) {
+    echo "<h1 style='text-align: center;'>No requests</h1>";
+    exit();
+}
 ?>
 
-<div class="container">
-    <?php foreach ($requests as $request) : ?>
+<div class="requests-container">
+    <?php foreach ($requests as $request) { ?>
         <div class="request">
             <div class="field">
                 <label>Restaurant's Name:</label>
@@ -54,5 +58,5 @@ $requests = $result->fetch_all(MYSQLI_ASSOC);
                 <a class="menu-button" href="requests.php?id=<?php echo $request["id_restaurant"]; ?>">Approve</a>
             </div>
         </div>
-    <?php endforeach; ?>
+    <?php } ?>
 </div>

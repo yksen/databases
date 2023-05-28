@@ -2,5 +2,5 @@
 <?php
 session_start();
 session_destroy();
-require_once "menu.php";
+header("Location: index.php");
 ?>

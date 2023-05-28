@@ -59,7 +59,7 @@ CREATE TABLE `restaurant_items` (
     `id_restaurant_item` int UNSIGNED NOT NULL AUTO_INCREMENT,
     `restaurant_id` int UNSIGNED NOT NULL,
     `item_id` int UNSIGNED NOT NULL,
-    `price` int UNSIGNED NOT NULL,
+    `price` float(10, 2) NOT NULL,
     PRIMARY KEY (`id_restaurant_item`),
     FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id_restaurant`),
     FOREIGN KEY (`item_id`) REFERENCES `items` (`id_item`)
