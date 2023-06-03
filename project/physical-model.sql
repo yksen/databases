@@ -80,6 +80,18 @@ BEGIN
 END;
 |
 
+CREATE TRIGGER update_total AFTER UPDATE ON `order_items`
+FOR EACH ROW
+BEGIN
+    UPDATE orders SET total = (
+        SELECT SUM(price * quantity)
+        FROM items JOIN order_items ON items.id_item = order_items.item_id
+        WHERE order_items.order_id = NEW.order_id
+    )
+    WHERE id_order = NEW.order_id;
+END;
+|
+
 delimiter ;
 
 INSERT INTO `users` (`is_admin`, `user_name`, `email`, `password`, `user_phone`, `user_address`) VALUES
