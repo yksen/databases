@@ -36,10 +36,12 @@
     child {node[attribute]{user\_id}}
     child {node[attribute]{\underline{id\_restaurant}}};
     \node[entity](D) at ($(A)+(0,-12)$) {item}
-    [grow=down, sibling distance=2.5cm]
+    [grow=down, sibling distance=2.75cm]
     child {node[attribute]{\underline{id\_item}}}
+    child {node[attribute]{restaurant\_id}}
     child {node[attribute]{name}}
-    child {node[attribute]{description}};
+    child {node[attribute]{description}}
+    child {node[attribute]{price}};
 
     \node[relationship](AC) at ($(A)!0.5!(C)$) {owns} edge[-Latex] (A) edge[double distance=1.5pt] (C);
     \node[relationship](AD) at ($(A)!0.5!(B)$) {placed} edge[-Latex] (A) edge[double distance=1.5pt] (B);
@@ -48,10 +50,6 @@
     child {node[attribute]{order\_id}}
     child {node[attribute]{item\_id}}
     child {node[attribute]{quantity}};
-    \node[relationship](CD) at ($(C)!0.5!(D)$) {offers} edge (C) edge (D)
-    [grow=right, sibling distance=1.5cm, level distance=2.5cm, rotate=-45]
-    child {node[attribute]{price}}
-    child {node[attribute]{item\_id}}
-    child {node[attribute]{restaurant\_id}};
+    \node[relationship](CD) at ($(C)!0.5!(D)$) {offers} edge[-Latex] (C) edge[double distance=1.5pt] (D);
 \end{tikzpicture}
 \end{document}

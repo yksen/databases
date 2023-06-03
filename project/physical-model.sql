@@ -15,9 +15,12 @@ CREATE TABLE `users` (
 DROP TABLE IF EXISTS `items`;
 CREATE TABLE `items` (
     `id_item` int UNSIGNED NOT NULL AUTO_INCREMENT,
+    `restaurant_id` int UNSIGNED NOT NULL,
     `item_name` varchar(50) NOT NULL,
     `description` varchar(255) NOT NULL,
-    PRIMARY KEY (`id_item`)
+    `price` float(10, 2) NOT NULL,
+    PRIMARY KEY (`id_item`),
+    FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id_restaurant`)
 ) DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `orders`;
@@ -52,15 +55,4 @@ CREATE TABLE `restaurants` (
     `cuisine` varchar(50) NOT NULL,
     PRIMARY KEY (`id_restaurant`),
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id_user`)
-) DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `restaurant_items`;
-CREATE TABLE `restaurant_items` (
-    `id_restaurant_item` int UNSIGNED NOT NULL AUTO_INCREMENT,
-    `restaurant_id` int UNSIGNED NOT NULL,
-    `item_id` int UNSIGNED NOT NULL,
-    `price` float(10, 2) NOT NULL,
-    PRIMARY KEY (`id_restaurant_item`),
-    FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id_restaurant`),
-    FOREIGN KEY (`item_id`) REFERENCES `items` (`id_item`)
 ) DEFAULT CHARSET=utf8;
