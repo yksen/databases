@@ -231,7 +231,7 @@ body {
     margin: 10px 0;
 }
 
-.cancel-order {
+.delete-item {
     position: absolute;
     cursor: pointer;
     right: 0;

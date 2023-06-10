@@ -47,7 +47,7 @@ $orderItems = $result->fetch_all(MYSQLI_ASSOC);
             echo "<div class='list-item' style='cursor: default;'>
                   <form method='post'>
                   <input type='hidden' name='order_id' value='{$orderItem["id_order"]}'>
-                  <input class='cancel-order' type='submit' value='Cancel order'>
+                  <input class='delete-item' type='submit' value='Cancel order'>
                   </form>
                   <div class='order-date'>{$orderItem["date"]}</div>
                   <div class='order-comment'>{$orderItem["comment"]}</div>
