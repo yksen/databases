@@ -21,12 +21,21 @@ if (!empty($_POST["update"])) {
     $database->query($query);
 }
 
+if (!empty($_POST["edit"])) {
+    $query = "UPDATE items SET
+              item_name = '" . $_POST["item_name"] . "',
+              description = '" . $_POST["description"] . "',
+              price = " . $_POST["price"] . "
+              WHERE id_item = " . $_POST["item_id"];
+    $database->query($query);
+}
+
 if (!empty($_POST["delete"])) {
     $query = "DELETE FROM items WHERE id_item = " . $_POST["item_id"];
     $database->query($query);
 }
 
-if (!empty($_POST["item_name"]) && !empty($_POST["description"]) && !empty($_POST["price"])) {
+if (!empty($_POST["add"])) {
     $item_name = $_POST["item_name"];
     $description = $_POST["description"];
     $price = $_POST["price"];
@@ -80,6 +89,7 @@ if ($_SESSION["user_id"] == $owner_id) { ?>
                 <input type='text' name='item_name' placeholder='Item name' required>
                 <input type='text' name='description' placeholder='Description' required>
                 <input type='text' name='price' placeholder='Price' required>
+                <input type='hidden' name='add' value='true'>
                 <input type='submit' value='Add item'>
             </form>
         </div>
@@ -155,19 +165,28 @@ if ($_SESSION["user_id"] == $owner_id) { ?>
     </div>
     <?php foreach ($menu as $item) { ?>
         <div class="menu-item">
-            <div><?php echo $item["item_name"]; ?></div>
-            <div><?php echo $item["description"]; ?></div>
-            <div><?php echo $item["price"] . " zł"; ?></div>
-            <input type='submit' value='Add to cart' onclick='addToCart(
-                <?php echo "{id: " . $item["id_item"] . ", name: \"" . $item["item_name"] . "\", price: " . $item["price"] . "}"; ?>)'>
             <?php if ($_SESSION["user_id"] == $owner_id) { ?>
                 <form method='post' action='restaurant.php?id=<?php echo $id; ?>'>
                     <input type='hidden' name='id' value='<?php echo $id; ?>'>
                     <input type='hidden' name='item_id' value='<?php echo $item["id_item"]; ?>'>
                     <input type='hidden' name='delete' value='true'>
-                    <input class='delete-item' type='submit' value='X'>
+                    <input class='delete-item' type='submit' value='x'>
                 </form>
-            <?php } ?>
+                <form method='post' action='restaurant.php?id=<?php echo $id; ?>'>
+                    <input type='text' name='item_name' value='<?php echo $item["item_name"]; ?>' required>
+                    <input type='text' name='description' value='<?php echo $item["description"]; ?>' required>
+                    <input type='number' name='price' value='<?php echo $item["price"]; ?>' required>
+                    <input type='hidden' name='item_id' value='<?php echo $item["id_item"]; ?>'>
+                    <input type='hidden' name='edit' value='true'>
+                    <input class='edit-item' type='submit' value='Edit'>
+                </form>
+                <?php } else { ?>
+                    <div><?php echo $item["item_name"]; ?></div>
+                    <div><?php echo $item["description"]; ?></div>
+                    <div><?php echo $item["price"] . " zł"; ?></div>
+                <?php } ?>
+                <input type='submit' value='Add to cart' onclick='addToCart(
+                <?php echo "{id: " . $item["id_item"] . ", name: \"" . $item["item_name"] . "\", price: " . $item["price"] . "}"; ?>)'>
         </div>
     <?php
     }
