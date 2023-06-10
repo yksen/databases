@@ -10,7 +10,7 @@ if (empty($_SESSION["user_id"])) {
 }
 
 if (!empty($_POST["item_id"]) && !empty($_POST["quantity"])) {
-    $comment = "";
+    $comment = $_POST["comment"];
     $query = "INSERT INTO orders (user_id, comment) VALUES ({$_SESSION["user_id"]}, '$comment')";
     $database->query($query);
     $order_id = $database->insert_id;

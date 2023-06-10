@@ -68,6 +68,7 @@ if (empty($owner_id)) {
 
         function addToCart(item) {
             document.querySelector("#submit-order").style.visibility = "visible";
+            document.querySelector("#comment").style.visibility = "visible";
             let cartContainer = document.querySelector(".cart form");
             if (cart.has(item.id)) {
                 cart.get(item.id).count++;
@@ -91,13 +92,15 @@ if (empty($owner_id)) {
                     "<button type='button' onclick='addToCart(" + JSON.stringify(item) + ")'>+</button>" +
                     "<span>" + item.name + ", " + item.price + " zł</span></div>";
             }
-            document.querySelectorAll(".cart-item input").forEach(input => console.log(input.value));
         }
 
         function removeFromCart(itemId) {
             cart.delete(itemId);
             document.querySelector("#item" + itemId).remove();
-            if (cart.size == 0) document.querySelector("#submit-order").style.visibility = "hidden";
+            if (cart.size == 0) {
+                document.querySelector("#submit-order").style.visibility = "hidden";
+                document.querySelector("#comment").style.visibility = "hidden";
+            }
         }
 
         function decreaseCount(itemId) {
@@ -115,6 +118,7 @@ if (empty($owner_id)) {
     <div class="cart">
         <form method="post" action="orders.php">
             <input id='submit-order' type='submit' value='Submit order' style='visibility: hidden;'>
+            <input id='comment' type="text" name="comment" placeholder="Comment" style="visibility: hidden;">
         </form>
     </div>
     <?php foreach ($menu as $item) { ?>
