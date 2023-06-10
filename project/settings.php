@@ -9,6 +9,14 @@ if (empty($_SESSION["user_id"])) {
     header("Location: index.php");
 }
 
+if (!empty($_POST["delete"])) {
+    $query = "DELETE FROM users WHERE id_user = " . $_SESSION["user_id"];
+    $database->query($query);
+
+    session_destroy();
+    header("Location: index.php");
+}
+
 if (!empty($_POST["name"]) && !empty($_POST["email"]) && !empty($_POST["phone"]) && !empty($_POST["address"])) {
     $name = $_POST["name"];
     $email = $_POST["email"];
@@ -50,4 +58,9 @@ $row = $result->fetch_assoc();
             <input type="submit" value="Save">
         </div>
     </form>
+    <form method="post" action="settings.php">
+        <div class="form-group">
+            <input type="hidden" name="delete" value="true">
+            <input type="submit" value="Delete account" style="background-color: red;">
+        </div>
 </div>
