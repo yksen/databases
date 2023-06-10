@@ -67,79 +67,61 @@ if (empty($owner_id)) {
         var cart = new Map();
 
         function addToCart(item) {
-            let cartContainer = document.querySelector(".cart");
+            document.querySelector("#submit-order").style.visibility = "visible";
+            let cartContainer = document.querySelector(".cart form");
             if (cart.has(item.id)) {
-                cart.set(item.id, {
-                    count: cart.get(item.id).count + 1,
-                    name: item.name,
-                    price: item.price
-                });
-                document.querySelector("#item" + item.id + " span").innerHTML = "x" + cart.get(item.id).count + " " +
-                    item.name + ", " + item.price + " zł (" + cart.get(item.id).count * item.price + " zł)";
+                cart.get(item.id).count++;
+                document.querySelector("#item" + item.id + "_count").value++;
+                document.querySelector("#item" + item.id + " span").innerHTML = item.name + " x" +
+                    cart.get(item.id).count + ", " + item.price + " zł (" + cart.get(item.id).count * item.price + " zł)";
             } else {
                 cart.set(item.id, {
                     count: 1,
                     name: item.name,
                     price: item.price
                 });
-                cartContainer.innerHTML += "<div id='item" + item.id + "'><span>" + item.name + ", " + item.price + " zł" +
-                    "</span><input type='submit' value='-' onclick='decreaseCount(" + item.id + ")'>" +
-                    "<input type='submit' value='+' onclick='addToCart(" + JSON.stringify(item) + ")'></div>";
+                cartContainer.appendChild(document.createElement("div"));
+                cartContainer.lastChild.classList.add("cart-item");
+                cartContainer.lastChild.id = "item" + item.id;
+                document.querySelector("#item" + item.id).innerHTML =
+                    "<div class='cart-item' id='item" + item.id + "'>" +
+                    "<input type='number' name='item_id[]' value='" + item.id + "' hidden>" +
+                    "<input id='item" + item.id + "_count' type='number' name='quantity[]' value='1' hidden>" +
+                    "<button type='button' onclick='decreaseCount(" + item.id + ")' >-</button>" +
+                    "<button type='button' onclick='addToCart(" + JSON.stringify(item) + ")'>+</button>" +
+                    "<span>" + item.name + ", " + item.price + " zł</span></div>";
             }
+            document.querySelectorAll(".cart-item input").forEach(input => console.log(input.value));
         }
 
         function removeFromCart(itemId) {
             cart.delete(itemId);
             document.querySelector("#item" + itemId).remove();
+            if (cart.size == 0) document.querySelector("#submit-order").style.visibility = "hidden";
         }
 
         function decreaseCount(itemId) {
             if (cart.get(itemId).count > 1) {
-                cart.set(itemId, {
-                    count: cart.get(itemId).count - 1,
-                    name: cart.get(itemId).name,
-                    price: cart.get(itemId).price
-                });
-                document.querySelector("#item" + itemId + " span").innerHTML = "x" + cart.get(itemId).count + " " +
-                    cart.get(itemId).name + ", " + cart.get(itemId).price + " zł (" + cart.get(itemId).count * cart.get(itemId).price + " zł)";
+                cart.get(itemId).count--;
+                document.querySelector("#item" + itemId + "_count").value--;
+                document.querySelector("#item" + itemId + " span").innerHTML = cart.get(itemId).name + " x" +
+                    cart.get(itemId).count + ", " + cart.get(itemId).price + " zł (" +
+                    cart.get(itemId).count * cart.get(itemId).price + " zł)";
             } else {
                 removeFromCart(itemId);
             }
         }
-
-        function submitOrder() {
-            let order = [];
-            if (cart.size == 0) {
-                alert("Your cart is empty");
-                return;
-            }
-            for (let [key, value] of cart) {
-                order.push({
-                    id: key,
-                    count: value.count
-                });
-            }
-            let orderJSON = JSON.stringify(order);
-            let restaurantId = <?php echo $id; ?>;
-            let request = new XMLHttpRequest();
-            request.open("POST", "restaurant.php", true);
-            request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            request.send("order=" + orderJSON + "&restaurant_id=" + restaurantId);
-            request.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    window.location.href = "index.php";
-                }
-            };
-        }
     </script>
     <div class="cart">
-        <input type='submit' value='Submit order' onclick='submitOrder()'>
+        <form method="post" action="orders.php">
+            <input id='submit-order' type='submit' value='Submit order' style='visibility: hidden;'>
+        </form>
     </div>
     <?php foreach ($menu as $item) { ?>
         <div class="menu-item">
             <div><?php echo $item["item_name"]; ?></div>
             <div><?php echo $item["description"]; ?></div>
-            <div><?php echo $item["price"]; ?></div>
+            <div><?php echo $item["price"] . " zł"; ?></div>
             <input type='submit' value='Add to cart' onclick='addToCart(
                 <?php echo "{id: " . $item["id_item"] . ", name: \"" . $item["item_name"] . "\", price: " . $item["price"] . "}"; ?>)'>
         </div>

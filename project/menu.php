@@ -19,6 +19,7 @@
             <?php if ($_SESSION["is_admin"]) { ?>
                 <a class='menu-button requests-button' href='requests.php'>Requests</a>
             <?php } ?>
+            <a class='menu-button' href='orders.php'>Orders</a>
             <a class='menu-button' href='settings.php'>Settings</a>
             <a class='menu-button' href='logout.php'>Logout</a>
         <?php } else { ?>
