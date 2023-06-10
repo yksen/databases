@@ -49,9 +49,9 @@ $orderItems = $result->fetch_all(MYSQLI_ASSOC);
                   <input type='hidden' name='order_id' value='{$orderItem["id_order"]}'>
                   <input class='delete-item' type='submit' value='Cancel order'>
                   </form>
-                  <div class='order-date'>{$orderItem["date"]}</div>
-                  <div class='order-comment'>{$orderItem["comment"]}</div>
-                  <div class='order-total'>{$orderItem["total"]} zł</div>
+                  <div class='order-date'>Order placed on {$orderItem["date"]}</div>
+                  <div class='order-comment'>Your comment for the restaurant:<br>{$orderItem["comment"]}</div>
+                  <div class='order-total'>Total: {$orderItem["total"]} zł</div>
                   <ul class='order-items'>";
         }
         $itemTotal = $orderItem["price"] * $orderItem["quantity"];

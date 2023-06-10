@@ -11,13 +11,23 @@ if (empty($id)) {
     exit();
 }
 
+if (!empty($_POST["id"])) {
+    $query = "UPDATE restaurants SET
+              restaurant_name = '" . $_POST["restaurant_name"] . "',
+              restaurant_address = '" . $_POST["restaurant_address"] . "',
+              restaurant_phone = '" . $_POST["restaurant_phone"] . "',
+              cuisine = '" . $_POST["cuisine"] . "'
+              WHERE id_restaurant = $id";
+    $database->query($query);
+}
+
 if (!empty($_POST["item_name"]) && !empty($_POST["description"]) && !empty($_POST["price"])) {
     $item_name = $_POST["item_name"];
     $description = $_POST["description"];
     $price = $_POST["price"];
 
     $query = "INSERT INTO items (item_name, description)
-                  VALUES ('$item_name', '$description')";
+              VALUES ('$item_name', '$description')";
     $database->query($query);
 
     $query = "SELECT id_item FROM items WHERE item_name = '$item_name'";
@@ -25,21 +35,47 @@ if (!empty($_POST["item_name"]) && !empty($_POST["description"]) && !empty($_POS
     $item_id = $result->fetch_row()[0][0];
 
     $query = "INSERT INTO restaurant_items (restaurant_id, item_id, price)
-                  VALUES ('$id', '$item_id', '$price')";
+              VALUES ('$id', '$item_id', '$price')";
     $database->query($query);
     echo $database->error;
 }
 
-$query = "SELECT user_id FROM restaurants WHERE id_restaurant = $id";
+$query = "SELECT * FROM restaurants WHERE id_restaurant = $id";
 $result = $database->query($query);
-$owner_id = $result->fetch_assoc()["user_id"];
+$restaurant = $result->fetch_assoc();
+$owner_id = $restaurant["user_id"];
 
 if (empty($owner_id)) {
     echo "<h1 class='alert'>Restaurant not found</h1>";
     exit();
 }
 
-?>
+if ($_SESSION["user_id"] == $owner_id) { ?>
+    <div class="form-box" style="position: absolute; left: 0;">
+        <form method='post' action='restaurant.php?id=<?php echo $id; ?>'>
+            <input type='hidden' name='id' value='<?php echo $id; ?>'>
+            <div class="form-group">
+                <label for="restaurant_name">Restaurant name</label>
+                <input type="text" name="restaurant_name" value="<?php echo $restaurant["restaurant_name"]; ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="restaurant_address">Restaurant address</label>
+                <input type="text" name="restaurant_address" value="<?php echo $restaurant["restaurant_address"]; ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="restaurant_phone">Restaurant phone</label>
+                <input type="text" name="restaurant_phone" value="<?php echo $restaurant["restaurant_phone"]; ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="cuisine">Cuisine</label>
+                <input type="text" name="cuisine" value="<?php echo $restaurant["cuisine"]; ?>" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Edit restaurant">
+            </div>
+        </form>
+    </div>
+<?php } ?>
 <div class="menu-container">
     <?php
     if ($_SESSION["user_id"] == $owner_id) { ?>
