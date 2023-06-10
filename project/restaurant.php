@@ -11,7 +11,7 @@ if (empty($id)) {
     exit();
 }
 
-if (!empty($_POST["id"])) {
+if (!empty($_POST["update"])) {
     $query = "UPDATE restaurants SET
               restaurant_name = '" . $_POST["restaurant_name"] . "',
               restaurant_address = '" . $_POST["restaurant_address"] . "',
@@ -21,23 +21,18 @@ if (!empty($_POST["id"])) {
     $database->query($query);
 }
 
+if (!empty($_POST["delete"])) {
+    $query = "DELETE FROM items WHERE id_item = " . $_POST["item_id"];
+    $database->query($query);
+}
+
 if (!empty($_POST["item_name"]) && !empty($_POST["description"]) && !empty($_POST["price"])) {
     $item_name = $_POST["item_name"];
     $description = $_POST["description"];
     $price = $_POST["price"];
 
-    $query = "INSERT INTO items (item_name, description)
-              VALUES ('$item_name', '$description')";
+    $query = "INSERT INTO items (item_name, restaurant_id, description, price) VALUES ('$item_name', $id, '$description', $price)";
     $database->query($query);
-
-    $query = "SELECT id_item FROM items WHERE item_name = '$item_name'";
-    $result = $database->query($query);
-    $item_id = $result->fetch_row()[0][0];
-
-    $query = "INSERT INTO restaurant_items (restaurant_id, item_id, price)
-              VALUES ('$id', '$item_id', '$price')";
-    $database->query($query);
-    echo $database->error;
 }
 
 $query = "SELECT * FROM restaurants WHERE id_restaurant = $id";
@@ -71,6 +66,7 @@ if ($_SESSION["user_id"] == $owner_id) { ?>
                 <input type="text" name="cuisine" value="<?php echo $restaurant["cuisine"]; ?>" required>
             </div>
             <div class="form-group">
+                <input type='hidden' name='update' value='true'>
                 <input type="submit" value="Edit restaurant">
             </div>
         </form>
@@ -80,7 +76,7 @@ if ($_SESSION["user_id"] == $owner_id) { ?>
     <?php
     if ($_SESSION["user_id"] == $owner_id) { ?>
         <div class="menu-item">
-            <form method='post'>
+            <form method='post' action='restaurant.php?id=<?php echo $id; ?>'>
                 <input type='text' name='item_name' placeholder='Item name' required>
                 <input type='text' name='description' placeholder='Description' required>
                 <input type='text' name='price' placeholder='Price' required>
@@ -164,6 +160,14 @@ if ($_SESSION["user_id"] == $owner_id) { ?>
             <div><?php echo $item["price"] . " zł"; ?></div>
             <input type='submit' value='Add to cart' onclick='addToCart(
                 <?php echo "{id: " . $item["id_item"] . ", name: \"" . $item["item_name"] . "\", price: " . $item["price"] . "}"; ?>)'>
+            <?php if ($_SESSION["user_id"] == $owner_id) { ?>
+                <form method='post' action='restaurant.php?id=<?php echo $id; ?>'>
+                    <input type='hidden' name='id' value='<?php echo $id; ?>'>
+                    <input type='hidden' name='item_id' value='<?php echo $item["id_item"]; ?>'>
+                    <input type='hidden' name='delete' value='true'>
+                    <input class='delete-item' type='submit' value='X'>
+                </form>
+            <?php } ?>
         </div>
     <?php
     }
