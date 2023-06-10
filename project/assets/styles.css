@@ -202,3 +202,23 @@ body {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
+.cart {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 300px;
+    height: 50vh;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.alert {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+}
